@@ -63,6 +63,7 @@ To be updated.
 
 ### Run cross evaluation
 Cross evaluation mainly consists of the following steps:
+
 1. `cd` to the folder ./Cross\_Evaluation/src/.
 2. Generate virtual sensor data by `python I80_generate_sensors.py`. Comment/uncomment sections in the source code to generate the virtual sensor data desired. 
 3. Generate a configuration file by `python I80_generate_configurations.py`. Comment/uncomment sections in the source code to generate the desired configuration input file [./Cross_Evaluation/Ixx_configurations_input.txt](https://github.com/Lab-Work/IDOT-SmartWorkzone/tree/master/Cross_Evaluation). 
