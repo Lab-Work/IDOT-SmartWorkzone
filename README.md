@@ -48,11 +48,24 @@ These are the text files containing the network topology which is required for e
   * [./Cross_Evaluation/Estimation_results/Ixx_rep###_res5s##m_generated.txt](https://github.com/Lab-Work/IDOT-SmartWorkzone/tree/master/Cross_Evaluation/Estimation_results). These are the text files that log the genenrated estimation results. E.g., the file *I80\_rep41368\_res5s50m\_generated.txt* logs the generated estimation results for configurations and algorithms for replication *41368* in *I-80* work zone at a resolution *5 s* and *50 m*. It should be noted that true states are all generated at resolution *5s50m*; the spatial interpolation and spatio-temporal filtering are applied to grid *5s50m* while the ensemble Kalman filter is applied to *5s200m* to ensure numerical stability. For final cross comparison, the ensemble Kalman filter results should be copied to 5s50m\_generated.txt and 5s50m folder. Here are the general structure of the folder.
   * [./Cross_Evaluation/Estimation_results/I80/rep41368/5s50m/](https://github.com/Lab-Work/IDOT-SmartWorkzone/tree/master/Cross_Evaluation/Estimation_results/I80/rep41368/5s50m). This folder contains the estimation results for a specific sensor network configuration and algorithm. All unites in this folder are in **m/s**(speed), **veh/m**(density), **m**(queue), **s**(travel time). E.g., the file *configHOMO_11_RADAR_linearFILL_speed.txt* is the velocity field estimation in **m/s** with 11 radars deployed and using linear spatial interpolation algorithm. The file contains a matrix with num\_steps(row) x num\_space(col) with the left top as the origin. The estimation results for ensemble Kalman filter (at 5s 200 m resolution) should be copied to this folder for final cross evaluation. 
   * [./Cross_Evaluation/Estimation_results/I80/rep41368/truestate/](https://github.com/Lab-Work/IDOT-SmartWorkzone/tree/master/Cross_Evaluation/Estimation_results/I80/rep41368/truestate). This folder contains the true states. All unites in this folder are in **m/s**(speed), **veh/m**(density), **m**(queue), **s**(travel time).
-   + The file *xx_density.txt* gives the true density field in veh/m.
-   + The file *xx_speed.txt* gives the true speed field in m/s.
-   + The file *xx_queue.txt* gives the queue length in meters.
-   + The file *xx_true_traveltime.txt* gives the true travel time in seconds. The true travel time at time t is defined as the travel time for the vehicle that **enters** the road at time t.
-   + The file *xx_measured_traveltime.txt* gives the measured travel time (s) by Bluetooth sensors with 100% penetration rate. In this file, the travel time at time t is the measured travel time of the vehicle **exits** at time t.
-   + The file *xx_trueinst_traveltime.txt* gives the instantaneous travel time (s) computed from the true speed field. 
+      + The file *xx_density.txt* gives the true density field in veh/m.
+      + The file *xx_speed.txt* gives the true speed field in m/s.
+      + The file *xx_queue.txt* gives the queue length in meters.
+      + The file *xx_true_traveltime.txt* gives the true travel time in seconds. The true travel time at time t is defined as the travel time for the vehicle that **enters** the road at time t.
+      + The file *xx_measured_traveltime.txt* gives the measured travel time (s) by Bluetooth sensors with 100% penetration rate. In this file, the travel time at time t is the measured travel time of the vehicle **exits** at time t.
+      + The file *xx_trueinst_traveltime.txt* gives the instantaneous travel time (s) computed from the true speed field. 
 
+
+## 4) Run the code
+
+### Run autocalibration of AIMSUN
+To be updated.
+
+### Run cross evaluation
+Cross evaluation mainly consists of the following steps:
+1. `cd` to the folder ./Cross\_Evaluation/src/.
+2. Generate virtual sensor data by `python I80_generate_sensors.py`. Comment/uncomment sections in the source code to generate the virtual sensor data desired. 
+3. Generate a configuration file by `python I80_generate_configurations.py`. Comment/uncomment sections in the source code to generate the desired configuration input file [./Cross_Evaluation/Ixx_configurations_input.txt](https://github.com/Lab-Work/IDOT-SmartWorkzone/tree/master/Cross_Evaluation). 
+4. Run estimators by `python I80_run_cross_evaluation.py`. Comment/uncomment sections as needed. The section `cross_eval.run_estimators()` runs all the estimators for the configurations specified in the configuration input file. If the estimation result for a combination of a sensor network and algorithm has been previoiusly generated and logged in [./Cross_Evaluation/Estimation_results/Ixx_rep###_res5s##m_generated.txt](https://github.com/Lab-Work/IDOT-SmartWorkzone/tree/master/Cross_Evaluation/Estimation_results), the it will not be re-generated. Remove entries in [./Cross_Evaluation/Estimation_results/Ixx_rep###_res5s##m_generated.txt](https://github.com/Lab-Work/IDOT-SmartWorkzone/tree/master/Cross_Evaluation/Estimation_results) to regenerate estimation results for certain sensor networks and algorithms.
+5. Visualize and compare estimation resutls by `python I80_run_cross_evaluation.py`. Comment/uncomment sections to visualize and compare the estimation results. 
 
