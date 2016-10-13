@@ -88,8 +88,8 @@ class CrossEval:
         self.__truestate_result_dir = OrderedDict()
         for rep in self.active_replications:
 
-            if sys.platform == 'darwin':
-                # Mac directory
+            if sys.platform == 'darwin' or sys.platform == 'linux2':
+                # Mac directory or linux directory
                 self.__sensor_data_log[rep] = log_dir + 'Virtual_sensor_data/{0}_rep{1}_generated.txt'.format(
                     self.workzone, rep)
                 self.__sensor_data_to_fetch[rep] = log_dir + 'Virtual_sensor_data/{0}_rep{1}_to_generate.txt'.format(
@@ -1516,7 +1516,7 @@ class CrossEval:
 
                         # compute the cost of this configuration
                         if unit_costs is not None:
-                            cost_sys[alg_id][sensor].append(_num_sensors * unit_costs[sensor] / 1000)
+                            cost_sys[alg_id][sensor].append(_num_sensors * unit_costs[sensor] / 1000.0)
                             # print('{0}+{1}: {2}'.format(alg_id, area, err_speed[alg_id][area]))
 
                 print('Status: finished computing errors for {0}'.format(alg_id))
@@ -1683,7 +1683,7 @@ class CrossEval:
 
                         # compute the cost of this configuration
                         if unit_costs is not None:
-                            cost_sys[alg_id][sensor].append(_num_sensors * unit_costs[sensor] / 1000)
+                            cost_sys[alg_id][sensor].append(_num_sensors * unit_costs[sensor] / 1000.0)
                             # print('{0}+{1}: {2}'.format(alg_id, area, err_queue[alg_id][area]))
 
                 print('Status: finished computing errors for {0}'.format(alg_id))
@@ -1852,7 +1852,7 @@ class CrossEval:
 
                         # compute the cost of this configuration
                         if unit_costs is not None:
-                            cost_sys[alg_id][sensor].append(_num_sensors * unit_costs[sensor] / 1000)
+                            cost_sys[alg_id][sensor].append(_num_sensors * unit_costs[sensor] / 1000.0)
                             # print('{0}+{1}: {2}'.format(alg_id, area, err_queue[alg_id][area]))
 
                 print('Status: finished computing errors for {0}'.format(alg_id))

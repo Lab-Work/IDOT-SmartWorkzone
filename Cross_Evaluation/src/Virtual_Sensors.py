@@ -68,7 +68,7 @@ class Virtual_Sensors:
                 self.__true_state_data_folder[rep] = data_dir + 'Estimation_results\\{0}\\rep{1}\\truestate\\'.format(self.__work_zone, rep)
                 self.__virtual_sensors_to_generate_file[rep] = log_dir + 'Virtual_sensor_data\\' +  self.__work_zone + '_' + 'rep{0}'.format(rep)  + '_to_generate.txt'
                 self.__virtual_sensors_generated_file[rep] =  log_dir + 'Virtual_sensor_data\\' +  self.__work_zone + '_' + 'rep{0}'.format(rep)  + '_generated.txt'
-        elif sys.platform == 'darwin':
+        elif sys.platform == 'darwin' or sys.platform == 'linux2':
             for rep in self.replications:
                 self.__trajectories_file[rep] = data_dir + 'Trajectory_data/' + '{0}_rep{1}.csv'.format(self.__work_zone, rep)
                 self.__virtual_sensors_data_folder[rep] = data_dir + 'Virtual_sensor_data/' + self.__work_zone + '/' + 'rep{0}'.format(rep) + '/'

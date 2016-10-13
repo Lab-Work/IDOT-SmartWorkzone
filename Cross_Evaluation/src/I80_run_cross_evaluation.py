@@ -643,11 +643,13 @@ if False:
 
 # ============================================
 # cost - benefit plot
-if False:
+if True:
     plot_speed = False
     plot_speed_aq = False
     plot_queue = True
     plot_tt = True
+
+    folder = '/home/yanning/Dropbox/Code/IDOT_Code/Figures/updated_figs/'
 
     replications_to_average = [41368, 41369, 41370, 41371, 41372]
     compare_grid = (5, 50)
@@ -678,7 +680,7 @@ if False:
                                             x_axis=x_axis, xlabel=xlabel, plot_style=plot_style, ylim=(0, 1),
                                             xticklabels=None, unit='imperial', save_fig=save_fig,
                                             title='Cost - Accuracy of queue estimation', fontsize=[38, 32, 32],
-                                            save_fig_name='cost_queue.pdf')
+                                            save_fig_name=fodler + 'cost_queue.pdf')
 
     if plot_tt:
         cross_eval.cost_compare_traveltime_error(replications_to_average, config_ids_prefix, alg_ids, estimation_grid,
@@ -688,7 +690,7 @@ if False:
                                                  xticklabels=None, unit='imperial', save_fig=save_fig,
                                                  title='Cost - Accuracy of travel time estimation',
                                                  fontsize=[38, 32, 32],
-                                                 save_fig_name='cost_tt.pdf')
+                                                 save_fig_name=folder + 'cost_tt.pdf')
 
     if plot_speed:
         cross_eval.cost_compare_speed_error(replications_to_average, config_ids_prefix, alg_ids, estimation_grid,
@@ -697,7 +699,7 @@ if False:
                                             x_axis=x_axis, xlabel=xlabel, plot_style=plot_style, ylim=(0, 34),
                                             xticklabels=None, unit='imperial', save_fig=save_fig,
                                             title='Cost - Accuracy of velocity', fontsize=[38, 32, 32],
-                                            save_fig_name='cost_velocity.pdf')
+                                            save_fig_name=folder + 'cost_velocity.pdf')
 
     if plot_speed_aq:
         cross_eval.cost_compare_speed_error(replications_to_average, config_ids_prefix, alg_ids, estimation_grid,
@@ -706,7 +708,7 @@ if False:
                                             x_axis=x_axis, xlabel=xlabel, plot_style=plot_style, ylim=(0, 37),
                                             xticklabels=None, unit='imperial', save_fig=save_fig,
                                             title='Cost - Accuracy of velocity around queue', fontsize=[38, 32, 32],
-                                            save_fig_name='cost_velocity_aroundqueue.pdf')
+                                            save_fig_name=folder + 'cost_velocity_aroundqueue.pdf')
 
 # ============================================
 # analyze the the number of ensembles
