@@ -1518,6 +1518,10 @@ class CrossEval:
                         if unit_costs is not None:
                             cost_sys[alg_id][sensor].append(_num_sensors * unit_costs[sensor] / 1000.0)
                             # print('{0}+{1}: {2}'.format(alg_id, area, err_speed[alg_id][area]))
+                            print('{0} + {1} {2}: cost, {3} k thousand; {4} speed error, {5} (mph)'.format(alg_id, _num_sensors, sensor,
+                                                                                      cost_sys[alg_id][sensor][-1], area, 
+                                                                                     self.__metric2imperial(err_speed[alg_id][sensor][-1], 'speed')))
+
 
                 print('Status: finished computing errors for {0}'.format(alg_id))
 
@@ -1579,7 +1583,7 @@ class CrossEval:
                             linewidth=2, marker=marker,
                             linestyle=linestyle, color=col,
                             markersize=10, fillstyle='full')
-
+                    # print out the algorithm and sensor combinations, and the cost
         if norm == 'L1':
             option_str = 'MAE'
         elif norm == 'L2':
@@ -1671,20 +1675,24 @@ class CrossEval:
                         config_id = config_id_prefix + '_' + sensor
                         _num_sensors = int(config_id_prefix.split('_')[1])
 
-                        L_speed_reps = []
+                        L_queue_reps = []
                         for rep in replications:
-                            L_speed = self.compute_queuelength_error_for_scenario_on_grid(rep, config_id, alg_id, grid,
+                            L_queue = self.compute_queuelength_error_for_scenario_on_grid(rep, config_id, alg_id, grid,
                                                                                           norm=norm)
-                            L_speed_reps.append(L_speed)
+                            L_queue_reps.append(L_queue)
                         # compute the mean error across replications
-                        L_speed_mean = np.sum(L_speed_reps) / len(replications)
+                        L_mean = np.sum(L_queue_reps) / len(replications)
 
-                        err_queue[alg_id][sensor].append(L_speed_mean)
+                        err_queue[alg_id][sensor].append(L_mean)
 
                         # compute the cost of this configuration
                         if unit_costs is not None:
                             cost_sys[alg_id][sensor].append(_num_sensors * unit_costs[sensor] / 1000.0)
                             # print('{0}+{1}: {2}'.format(alg_id, area, err_queue[alg_id][area]))
+                            # print out the system error and system cost
+                            print('{0} + {1} {2}: cost, {3} k dollars; queue error, {4} (mile)'.format(alg_id, _num_sensors, sensor,
+                                                                                      cost_sys[alg_id][sensor][-1], 
+                                                                        self.__metric2imperial(err_queue[alg_id][sensor][-1], 'distance')))
 
                 print('Status: finished computing errors for {0}'.format(alg_id))
 
@@ -1692,18 +1700,18 @@ class CrossEval:
             raise Exception('Cost analysis is only supported across configurations.')
 
         # ==================================
-        # visualize the speed
+        # visualize the queue
         fig = plt.figure(figsize=figsize, dpi=100)
         ax = fig.add_axes([0.1, 0.15, 0.82, 0.75])
 
         if unit == 'imperial':
 
-            unit_str = 'mph'
+            unit_str = 'mile'
             for key in err_queue.keys():
                 for a in err_queue[key].keys():
                     err_queue[key][a] = self.__metric2imperial(np.array(err_queue[key][a]), 'distance')
         elif unit == 'metric':
-            unit_str = 'm/s'
+            unit_str = 'm'
 
         for key in err_queue.keys():
             # for each algorithm
@@ -1840,20 +1848,23 @@ class CrossEval:
                         config_id = config_id_prefix + '_' + sensor
                         _num_sensors = int(config_id_prefix.split('_')[1])
 
-                        L_speed_reps = []
+                        L_tt_reps = []
                         for rep in replications:
-                            L_speed = self.compute_traveltime_error_for_scenario_on_grid(rep, config_id, alg_id, grid,
+                            L_tt = self.compute_traveltime_error_for_scenario_on_grid(rep, config_id, alg_id, grid,
                                                                                          norm=norm)
-                            L_speed_reps.append(L_speed)
+                            L_tt_reps.append(L_tt)
                         # compute the mean error across replications
-                        L_speed_mean = np.sum(L_speed_reps) / len(replications)
+                        L_mean = np.sum(L_tt_reps) / len(replications)
 
-                        err_tt[alg_id][sensor].append(L_speed_mean)
+                        err_tt[alg_id][sensor].append(L_mean)
 
                         # compute the cost of this configuration
                         if unit_costs is not None:
                             cost_sys[alg_id][sensor].append(_num_sensors * unit_costs[sensor] / 1000.0)
                             # print('{0}+{1}: {2}'.format(alg_id, area, err_queue[alg_id][area]))
+                            print('{0} + {1} {2}: cost, {3} k dollars; travel time error, {4} (min)'.format(alg_id, _num_sensors, sensor,
+                                                                                      cost_sys[alg_id][sensor][-1], err_tt[alg_id][sensor][-1]/60.0))
+
 
                 print('Status: finished computing errors for {0}'.format(alg_id))
 
@@ -1867,7 +1878,7 @@ class CrossEval:
                 err_tt[key][sensor] = np.array(err_tt[key][sensor]) / 60.0
 
         # ==================================
-        # visualize the speed
+        # visualize the travel time
         fig = plt.figure(figsize=figsize, dpi=100)
         ax = fig.add_axes([0.1, 0.15, 0.82, 0.75])
 
@@ -1909,7 +1920,7 @@ class CrossEval:
                 # ==============================================
                 # plot the line
                 if plot_style == 'line':
-                    print('ploting:\n{0}\n{1}'.format(cost_sys[key][sensor], err_tt[key][sensor]))
+                    print('plotting travel time error:\n{0}\n{1}'.format(cost_sys[key][sensor], err_tt[key][sensor]))
                     ax.plot(cost_sys[key][sensor], err_tt[key][sensor], label=label,
                             linewidth=2, marker=marker,
                             linestyle=linestyle, color=col,

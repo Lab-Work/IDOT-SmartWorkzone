@@ -1,5 +1,8 @@
+import matplotlib as mpl
+mpl.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
+np.set_printoptions(linewidth=200)
 from cross_evaluation import CrossEval
 
 __author__ = 'Yanning Li and Juan Carlos Martinez'
@@ -644,8 +647,8 @@ if False:
 # ============================================
 # cost - benefit plot
 if True:
-    plot_speed = False
-    plot_speed_aq = False
+    plot_speed = True
+    plot_speed_aq = True
     plot_queue = True
     plot_tt = True
 
@@ -680,7 +683,7 @@ if True:
                                             x_axis=x_axis, xlabel=xlabel, plot_style=plot_style, ylim=(0, 1),
                                             xticklabels=None, unit='imperial', save_fig=save_fig,
                                             title='Cost - Accuracy of queue estimation', fontsize=[38, 32, 32],
-                                            save_fig_name=fodler + 'cost_queue.pdf')
+                                            save_fig_name=folder + 'cost_queue.png')
 
     if plot_tt:
         cross_eval.cost_compare_traveltime_error(replications_to_average, config_ids_prefix, alg_ids, estimation_grid,
@@ -690,7 +693,7 @@ if True:
                                                  xticklabels=None, unit='imperial', save_fig=save_fig,
                                                  title='Cost - Accuracy of travel time estimation',
                                                  fontsize=[38, 32, 32],
-                                                 save_fig_name=folder + 'cost_tt.pdf')
+                                                 save_fig_name=folder + 'cost_tt.png')
 
     if plot_speed:
         cross_eval.cost_compare_speed_error(replications_to_average, config_ids_prefix, alg_ids, estimation_grid,
@@ -699,7 +702,7 @@ if True:
                                             x_axis=x_axis, xlabel=xlabel, plot_style=plot_style, ylim=(0, 34),
                                             xticklabels=None, unit='imperial', save_fig=save_fig,
                                             title='Cost - Accuracy of velocity', fontsize=[38, 32, 32],
-                                            save_fig_name=folder + 'cost_velocity.pdf')
+                                            save_fig_name=folder + 'cost_velocity.png')
 
     if plot_speed_aq:
         cross_eval.cost_compare_speed_error(replications_to_average, config_ids_prefix, alg_ids, estimation_grid,
@@ -708,7 +711,7 @@ if True:
                                             x_axis=x_axis, xlabel=xlabel, plot_style=plot_style, ylim=(0, 37),
                                             xticklabels=None, unit='imperial', save_fig=save_fig,
                                             title='Cost - Accuracy of velocity around queue', fontsize=[38, 32, 32],
-                                            save_fig_name=folder + 'cost_velocity_aroundqueue.pdf')
+                                            save_fig_name=folder + 'cost_velocity_aroundqueue.png')
 
 # ============================================
 # analyze the the number of ensembles
